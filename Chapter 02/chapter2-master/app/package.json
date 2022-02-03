@@ -1,0 +1,18 @@
+{
+  "name": "hands-on-red-iot-ch3",
+  "description": "Basic Node-RED instance",
+  "version": "1.0.0",
+  "private": true,
+  "main": "node_modules/node-red/red/red.js",
+  "scripts": {
+    "start": "node node_modules/node-red/red.js --settings=./settings.js flows/flow.json",
+    "solution": "node node_modules/node-red/red.js --settings=./settings.js flows/flow_solved.json"
+  },
+  "dependencies": {
+    "node-red": "~1.0.4",
+    "node-red-admin": "~0.1.5",
+    "node-red-contrib-device-stats": "~1.1.2",
+    "node-red-contrib-moment": "^4.0.0",
+    "node-red-dashboard": "~2.19.4"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "hands-on-red-iot-ch5",
+  "description": "Node-RED instance for acquiring and processing data from the Sense Hat",
+  "version": "1.0.0",
+  "private": true,
+  "main": "node_modules/node-red/red/red.js",
+  "scripts": {
+    "start": "FLOW=scratch node node_modules/node-red/red.js --settings=./settings.js",
+    "custom": "FLOW=custom node node_modules/node-red/red.js --settings=./settings.js --port ${PORT:-2880} flows/${FLOW:-flow2.json}",
+    "flow0": "FLOW=flow0 node node_modules/node-red/red.js --settings=./settings.js flows/flow0.json",
+    "flow1": "FLOW=flow1 node node_modules/node-red/red.js --settings=./settings.js flows/flow1.json",
+    "flow2": "FLOW=flow2 node node_modules/node-red/red.js --settings=./settings.js flows/flow2.json"
+  },
+  "dependencies": {
+    "node-red": "~1.0.4",
+    "node-red-admin": "~0.1.5",
+    "node-red-contrib-device-stats": "~1.1.2",
+    "node-red-contrib-moment": "^3.0.3",
+    "node-red-contrib-throttle": "^0.1.6",
+    "node-red-dashboard": "~2.19.4",
+    "node-red-node-pi-sense-hat-simulator": "0.0.1",
+    "node-red-node-pusher": "^0.1.0",
+    "json-db-node-red": "~0.5.3",
+    "node-red-contrib-buffer-array": "~1.1.0",
+    "node-red-contrib-interval-length": "0.0.4",
+    "node-red-contrib-statistics": "~2.2.2"
+  }
+}

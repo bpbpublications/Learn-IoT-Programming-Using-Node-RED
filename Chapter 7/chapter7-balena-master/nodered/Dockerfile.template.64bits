@@ -1,0 +1,51 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-ubuntu-node:10
+
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+      python3 python3-pip python3-dev        \
+      python3-rpi.gpio libatomic1            \
+      build-essential libssl-dev libffi-dev libtiff-dev \
+      libxml2-dev libxslt1-dev zlib1g-dev    \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install -U pip
+#### MOVE TO THE TOP ####################################################################
+RUN apt-get update && apt-get install -yq python3-setuptools
+RUN pip3 install numpy RPi.GPIO sense-hat
+#### MOVE TO THE TOP ####################################################################
+
+# Set time zone
+# https://github.com/balena-io-playground/balena-timezone
+ENV TIMEZONE=Europe/Madrid
+
+# enable container init system, that will be PID 1
+# The init system will handle signals, reap zombies and also properly handle udev hardware events correctly
+ENV INITSYSTEM on
+
+# Defines our working directory in container
+WORKDIR /usr/src/app
+
+# NodeRED dependencies
+COPY ./app/package.json .
+RUN npm install
+
+# All app files
+COPY ./app .
+# This is to throw an error if .env is not present
+COPY ./app/.env .
+
+## RTIMUlib required by Sense-Hat
+## https://www.toradex.com/community/questions/54118/torizon-buidling-python-modules-in-arm64-with-aarc.html
+## gcc g++ make already installed
+#### MOVE TO THE TOP ####################################################################
+RUN apt-get update && apt-get install -yq  git
+RUN git clone https://github.com/RPi-Distro/RTIMULib
+RUN cd RTIMULib/Linux/python && python3 setup.py build && python3 setup.py install
+
+# Make sure that python exists and points to python3
+RUN ln -s /usr/bin/python3 /usr/bin/python
+# And this soft link to forward rpi-sensehat NodeRED module to actual location of Sense Hat module
+RUN ln -s /usr/local/lib/python3.6 /usr/lib/python2.7
+#### MOVE TO THE TOP ####################################################################
+
+# server.js will run when container starts up on the device
+CMD ["bash", "/usr/src/app/start.sh"]

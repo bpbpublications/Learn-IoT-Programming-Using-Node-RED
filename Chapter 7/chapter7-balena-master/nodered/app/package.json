@@ -1,0 +1,31 @@
+{
+    "name": "nodered-balena",
+    "version": "1.0.0",
+    "description": "NodeRED instance for the IoT Foundation Layer",
+    "main": "node_modules/node-red/red/red.js",
+    "scripts": {
+    "start": "FLOW=scratch node node_modules/node-red/red.js --settings=./settings.js",
+    "custom": "FLOW=custom node node_modules/node-red/red.js --settings=./settings.js --port ${PORT:-80} flows/${FLOW:-balena.json}",
+    "flow0": "FLOW=flow0 node node_modules/node-red/red.js --settings=./settings.js flows/flow0.json",
+    "flow1": "FLOW=flow1 node node_modules/node-red/red.js --settings=./settings.js flows/flow1.json",
+    "flow2": "FLOW=flow2 node node_modules/node-red/red.js --settings=./settings.js flows/flow2.json",
+    "flow9-balena": "FLOW=flow9_balena node node_modules/node-red/red.js --settings=./settings.js flows/flow9-balena.json",
+    "flow9-motion": "FLOW=flow9_motion node node_modules/node-red/red.js --settings=./settings.js flows/flow9_plus_motion_events.json"
+  },
+    "dependencies": {
+        "node-red": "~1.0.4",
+        "node-red-admin": "~0.1.5",
+        "node-red-dashboard": "~2.19.4",
+        "node-red-contrib-moment": "^3.0.3",
+        "node-red-node-pusher": "^0.1.0",
+        "node-red-contrib-buffer-array": "~1.1.0",
+        "node-red-contrib-throttle": "^0.1.6",
+        "node-red-contrib-interval-length": "0.0.4",
+        "node-red-node-pi-sense-hat": "^0.0.18",
+        "node-red-contrib-sense-hat-scroll-message":"2.1.2",
+        "node-red-contrib-balena": "^1.0.1"
+    }
+}
+
+
+

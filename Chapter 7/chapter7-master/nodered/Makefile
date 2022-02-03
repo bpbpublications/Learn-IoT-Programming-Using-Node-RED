@@ -1,0 +1,2 @@
+nodered:
+	bash start.sh

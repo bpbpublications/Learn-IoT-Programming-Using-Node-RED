@@ -1,0 +1,10 @@
+# DDL
+
+CREATE DATABASE environment
+
+# DML
+
+# CONTEXT-DATABASE: environment
+
+temperatures,location=HOME room="KITCHEN",instant=28.5,average=28.45 1597397160
+temperatures,location=HOME room="KITCHEN",instant=28.4,average=28.42 1597397100

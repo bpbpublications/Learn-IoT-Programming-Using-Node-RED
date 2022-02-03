@@ -1,0 +1,32 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node:12-stretch
+
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+  rpi.gpio \
+  python-dev \
+  python-rpi.gpio \
+  libatomic1 \
+  sense-hat \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set time zone
+# https://github.com/balena-io-playground/balena-timezone
+ENV TIMEZONE=Europe/Madrid
+
+# enable container init system, that will be PID 1
+# The init system will handle signals, reap zombies and also properly handle udev hardware events correctly
+ENV INITSYSTEM on
+
+# Defines our working directory in container
+WORKDIR /usr/src/app
+
+# NodeRED dependencies
+COPY ./app/package.json .
+RUN npm install
+
+# All app files
+COPY ./app .
+# This is to throw an error if .env is not present
+COPY ./app/.env .
+
+# server.js will run when container starts up on the device
+CMD ["bash", "/usr/src/app/start.sh"]

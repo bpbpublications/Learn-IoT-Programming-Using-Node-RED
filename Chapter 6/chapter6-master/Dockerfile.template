@@ -1,0 +1,32 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian-node:12
+
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+  rpi.gpio \
+  python-dev \
+  python-rpi.gpio \
+  libatomic1 \
+  sense-hat \
+  python-pip \
+  python3-pip \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN pip install setuptools wheel
+RUN pip3 install setuptools wheel
+
+# Set time zone
+# https://github.com/balena-io-playground/balena-timezone
+ENV TIMEZONE=Europe/Madrid
+
+# enable container init system, that will be PID 1
+# The init system will handle signals, reap zombies and also properly handle udev hardware events correctly
+ENV INITSYSTEM on
+
+# Defines our working directory in container
+WORKDIR /usr/src
+
+# All app files
+COPY ./scripts ./scripts
+
+# Start with a bash script
+COPY start.sh ./
+CMD ["bash", "start.sh"]
